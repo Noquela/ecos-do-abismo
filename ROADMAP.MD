@@ -236,6 +236,28 @@ projeto_egipcio/
 
 ---
 
+### **🎨 Integração de Assets IA por Sprint**
+
+**ESTRATÉGIA: Gameplay primeiro, Assets depois**
+- Completar mecânicas core (Sprints 1-6)
+- Gerar assets conforme necessário para cada sistema
+- Manter placeholders até sistema estar sólido
+
+#### **Sprint 1-2: Assets Básicos**
+- Player warrior sprite (khopesh, idle, walk)
+- Múmia inimigo básico (idle, walk, attack)
+- Armas simples (khopesh placeholder)
+
+#### **Sprint 3-4: Assets Bullet Hell**
+- Projéteis egípcios (orbs, lightning, fire)
+- Inimigos caster (sacerdote de Thoth)
+- Padrões de projéteis visuais
+
+#### **Sprint 5-6: Assets de Combate**
+- Animações de ataque completas
+- 3 armas finais (khopesh, spear, axe)
+- Efeitos de impacto e partículas
+
 ### **🎨 Fase 4 – Integração de IA (4 sprints)**
 
 #### **Sprint 10: Pipeline de Sprites (Semana 19-20)**

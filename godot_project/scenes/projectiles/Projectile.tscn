@@ -1,0 +1,5 @@
+[gd_scene format=3]
+
+[node name="root" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
