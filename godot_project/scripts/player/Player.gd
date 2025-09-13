@@ -16,6 +16,7 @@ var dash_direction: Vector2 = Vector2.ZERO
 
 # Components
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var player_sprite: Sprite2D = $PlayerSprite
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 # Weapon system
@@ -52,6 +53,7 @@ func _ready():
 
 	# Setup weapon system
 	setup_weapon_system()
+	load_player_sprite()
 
 	# Connect to health system
 	health_changed.emit(health, max_health)
@@ -338,6 +340,16 @@ func die():
 
 	player_died.emit()
 	print("[Player] The pharaoh's champion has fallen...")
+
+func load_player_sprite():
+	"""Load player sprite from assets"""
+	if player_sprite:
+		var texture = load("res://assets/sprites/player_warrior_placeholder.png")
+		if texture:
+			player_sprite.texture = texture
+			print("[Player] Loaded Egyptian warrior sprite")
+		else:
+			print("[Player] Warning: Could not load player sprite")
 
 # Utility functions
 func is_invulnerable() -> bool:

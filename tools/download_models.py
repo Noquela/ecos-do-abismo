@@ -52,6 +52,26 @@ MODELS_TO_DOWNLOAD = {
     "upscale_models": {
         "ESRGAN_4x_UltraSharp.pth": "https://huggingface.co/lokCX/4x-Ultrasharp/resolve/main/4x-UltraSharp.pth",
         "RealESRGAN_x4plus.pth": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth",
+    },
+
+    # Egyptian Hack'n'Slash Specialized LoRAs
+    "loras": {
+        # Core Game Art Style
+        "pixel_art_xl.safetensors": "https://huggingface.co/nerijs/pixel-art-xl/resolve/main/pixel-art-xl.safetensors",
+        "isometric_game_xl.safetensors": "https://civitai.com/api/download/models/15236?type=Model&format=SafeTensor",
+
+        # Egyptian & Ancient Themes
+        "ancient_egypt_xl.safetensors": "https://civitai.com/api/download/models/128459?type=Model&format=SafeTensor",
+        "pharaoh_style_xl.safetensors": "https://civitai.com/api/download/models/167234?type=Model&format=SafeTensor",
+
+        # RPG & Combat
+        "rpg_character_xl.safetensors": "https://civitai.com/api/download/models/194567?type=Model&format=SafeTensor",
+        "weapon_design_xl.safetensors": "https://civitai.com/api/download/models/145623?type=Model&format=SafeTensor",
+        "magic_effects_xl.safetensors": "https://civitai.com/api/download/models/189432?type=Model&format=SafeTensor",
+
+        # Quality Enhancement
+        "detail_tweaker_xl.safetensors": "https://civitai.com/api/download/models/135867?type=Model&format=SafeTensor",
+        "sharp_detail_xl.safetensors": "https://civitai.com/api/download/models/203847?type=Model&format=SafeTensor",
     }
 }
 
