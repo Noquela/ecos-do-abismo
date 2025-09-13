@@ -144,14 +144,13 @@ func _process_hit(target: Node):
 	# Destroy projectile
 	destroy_projectile()
 
-func should_ignore_target(target: Node) -> bool:
+func should_ignore_target(_target: Node) -> bool:
 	# Add logic to ignore same-type targets
 	# For now, projectiles hit everything
 	return false
 
-func handle_bounce(collision_body: Node):
+func handle_bounce(_collision_body: Node):
 	# Calculate bounce direction
-	var collision_point = global_position
 	var normal = Vector2.UP  # Simplified - should get actual collision normal
 
 	# Reflect velocity
@@ -212,14 +211,16 @@ func return_to_pool():
 	# Hide and disable
 	visible = false
 	set_physics_process(false)
-	hitbox.monitoring = false
+	if has_node("HitBox"):
+		hitbox.monitoring = false
 
 func activate_from_pool(pos: Vector2, dir: Vector2):
 	global_position = pos
 	set_direction(dir)
 	visible = true
 	set_physics_process(true)
-	hitbox.monitoring = true
+	if has_node("HitBox"):
+		hitbox.monitoring = true
 	is_pooled = true
 
 # Projectile presets for different enemy types

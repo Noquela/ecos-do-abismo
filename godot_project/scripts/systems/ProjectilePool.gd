@@ -38,8 +38,10 @@ func create_new_projectile() -> Projectile:
 	add_child(projectile)
 	projectile.visible = false
 	projectile.set_physics_process(false)
-	projectile.hitbox.monitoring = false
-	projectile.projectile_destroyed.connect(_on_projectile_destroyed)
+	if projectile.has_node("HitBox"):
+		projectile.get_node("HitBox").monitoring = false
+	if projectile.has_signal("projectile_destroyed"):
+		projectile.projectile_destroyed.connect(_on_projectile_destroyed)
 	projectile.is_pooled = true
 	total_created += 1
 	return projectile
@@ -89,7 +91,12 @@ func spawn_projectile(position: Vector2, direction: Vector2, projectile_type: St
 	configure_projectile_type(projectile, projectile_type)
 
 	# Activate projectile
-	projectile.activate_from_pool(position, direction)
+	projectile.global_position = position
+	projectile.set_direction(direction)
+	projectile.visible = true
+	projectile.set_physics_process(true)
+	if projectile.has_node("HitBox"):
+		projectile.get_node("HitBox").monitoring = true
 
 	return projectile
 
