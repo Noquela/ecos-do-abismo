@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://bf7eskrx7mgcl"]
 
-[ext_resource type="Script" path="res://scripts/systems/ProjectilePool.gd" id="3"]
+[ext_resource type="Script" uid="uid://bgacm2cp5gf7h" path="res://scripts/systems/ProjectilePool.gd" id="3"]
 
 [node name="root" type="Node2D"]
 

@@ -238,25 +238,35 @@ projeto_egipcio/
 
 ### **🎨 Integração de Assets IA por Sprint**
 
-**ESTRATÉGIA: Gameplay primeiro, Assets depois**
-- Completar mecânicas core (Sprints 1-6)
-- Gerar assets conforme necessário para cada sistema
-- Manter placeholders até sistema estar sólido
+**ESTRATÉGIA: Gameplay primeiro, Assets depois - INÍCIO CONFIRMADO SPRINT 4**
 
-#### **Sprint 1-2: Assets Básicos**
-- Player warrior sprite (khopesh, idle, walk)
+✅ **Sprint 1-3: MECÂNICAS CORE COMPLETAS**
+- Sistema de movimento e dash ✅
+- Sistema de combate melee ✅
+- Sistema bullet hell completo ✅
+- Inimigos caster e híbridos ✅
+- Object pooling otimizado ✅
+
+🎯 **INÍCIO DA GERAÇÃO IA: SPRINT 4 (AGORA)**
+
+#### **Sprint 4: Assets Visuais Básicos [INÍCIO]**
+- ⚡ **Player warrior sprite** (guerreiro egípcio com khopesh)
+- ⚡ **Projéteis básicos visuais** (fire bolt, ice shard, light beam)
+- ⚡ **Setup ComfyUI pipeline** com templates egípcios
+- ⚡ **Teste de qualidade** RTX 5070 optimized
+- **Status**: 🚀 INICIANDO
+
+#### **Sprint 5: Inimigos e Armas**
 - Múmia inimigo básico (idle, walk, attack)
-- Armas simples (khopesh placeholder)
+- Sacerdote de Thoth caster visual
+- Khopesh weapon sprite refinado
+- Background tiles básicos
 
-#### **Sprint 3-4: Assets Bullet Hell**
-- Projéteis egípcios (orbs, lightning, fire)
-- Inimigos caster (sacerdote de Thoth)
-- Padrões de projéteis visuais
-
-#### **Sprint 5-6: Assets de Combate**
-- Animações de ataque completas
-- 3 armas finais (khopesh, spear, axe)
+#### **Sprint 6-7: Assets de Combate Avançados**
+- Spear of Ra e Axe of Sobek sprites
+- Animações de ataque (4-8 frames)
 - Efeitos de impacto e partículas
+- Guerreiro-Sacerdote híbrido visual
 
 ### **🎨 Fase 4 – Integração de IA (4 sprints)**
 
