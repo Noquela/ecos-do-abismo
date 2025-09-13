@@ -18,6 +18,13 @@ var dash_direction: Vector2 = Vector2.ZERO
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
+# Weapon system
+var current_weapon: Weapon
+var weapon_holder: Node2D
+
+# Debug placeholder - will be replaced with AI-generated sprites
+var placeholder_color: Color = Color.GOLD
+
 # Timers
 var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
@@ -36,17 +43,21 @@ signal attack_performed
 func _ready():
 	health = max_health
 
-	# Setup collision shape (placeholder - will be set when sprites are generated)
+	# Setup collision shape with proper size
 	if collision_shape.shape == null:
 		var capsule = CapsuleShape2D.new()
 		capsule.radius = 16
 		capsule.height = 32
 		collision_shape.shape = capsule
 
+	# Setup weapon system
+	setup_weapon_system()
+
 	# Connect to health system
 	health_changed.emit(health, max_health)
 
 	print("[Player] Egyptian warrior initialized - Ready for battle!")
+	print("[Player] Controls: WASD to move, Shift/RMB to dash, Space/LMB to attack")
 
 func _physics_process(delta):
 	handle_input()
@@ -54,6 +65,45 @@ func _physics_process(delta):
 	update_timers(delta)
 	update_animation()
 	move_and_slide()
+
+func _draw():
+	# Debug placeholder visuals until we have AI-generated sprites
+	if iframe_timer > 0:
+		# Flash white when taking damage
+		if int(Time.get_time_msec() / 100) % 2:
+			placeholder_color = Color.WHITE
+		else:
+			placeholder_color = Color.GOLD
+	else:
+		placeholder_color = Color.GOLD
+
+	# Draw player as a simple shape
+	match current_state:
+		PlayerState.DASHING:
+			placeholder_color = Color.CYAN
+		PlayerState.ATTACKING:
+			placeholder_color = Color.RED
+		PlayerState.HURT:
+			placeholder_color = Color.ORANGE_RED
+		_:
+			if is_moving():
+				placeholder_color = Color.YELLOW
+			else:
+				placeholder_color = Color.GOLD
+
+	# Draw player body
+	draw_circle(Vector2.ZERO, 16, placeholder_color)
+
+	# Draw directional indicator
+	if velocity.length() > 0:
+		var direction = velocity.normalized() * 20
+		draw_line(Vector2.ZERO, direction, Color.BLACK, 3)
+
+	# Draw dash cooldown indicator
+	if not can_dash:
+		var cooldown_progress = 1.0 - (dash_cooldown_timer / dash_cooldown)
+		var arc_color = Color.BLUE
+		draw_arc(Vector2.ZERO, 20, 0, cooldown_progress * TAU, 32, arc_color, 2)
 
 func handle_input():
 	if current_state == PlayerState.HURT:
@@ -70,9 +120,14 @@ func handle_input():
 	if Input.is_action_just_pressed("attack") and current_state != PlayerState.ATTACKING:
 		start_attack()
 
+	# Weapon switching (number keys)
+	if Input.is_action_just_pressed("ui_accept"):  # Enter key for now
+		cycle_weapon()
+
 func update_movement(delta):
 	if is_dashing:
 		velocity = dash_direction * dash_speed
+		queue_redraw()  # Update visuals
 		return
 
 	# Normal movement
@@ -85,6 +140,11 @@ func update_movement(delta):
 		velocity = velocity.move_toward(Vector2.ZERO, base_speed * 8 * delta)
 		if current_state == PlayerState.WALKING:
 			current_state = PlayerState.IDLE
+
+	queue_redraw()  # Update visuals
+
+func is_moving() -> bool:
+	return velocity.length() > 10
 
 func start_dash(direction: Vector2):
 	if not can_dash:
@@ -101,23 +161,101 @@ func start_dash(direction: Vector2):
 	iframe_timer = dash_duration
 
 	dash_used.emit()
-	print("[Player] Dash activated!")
+	print("[Player] Dash activated! Direction: ", dash_direction)
+
+func setup_weapon_system():
+	# Create weapon holder node
+	weapon_holder = Node2D.new()
+	weapon_holder.name = "WeaponHolder"
+	add_child(weapon_holder)
+
+	# Equip default weapon (Khopesh)
+	equip_weapon("khopesh")
+
+func equip_weapon(weapon_type: String):
+	# Remove current weapon
+	if current_weapon:
+		current_weapon.queue_free()
+
+	# Create new weapon based on type
+	match weapon_type:
+		"khopesh":
+			current_weapon = Weapon.create_khopesh()
+		"spear":
+			current_weapon = Weapon.create_spear_of_ra()
+		"axe":
+			current_weapon = Weapon.create_axe_of_sobek()
+		_:
+			current_weapon = Weapon.create_khopesh()
+
+	# Add weapon to holder
+	current_weapon.set_script(preload("res://scripts/weapons/Weapon.gd"))
+	weapon_holder.add_child(current_weapon)
+
+	# Connect weapon signals
+	current_weapon.attack_started.connect(_on_weapon_attack_started)
+	current_weapon.attack_hit.connect(_on_weapon_hit)
+	current_weapon.attack_finished.connect(_on_weapon_attack_finished)
+
+	print("[Player] Equipped: ", current_weapon.weapon_name)
+
+func cycle_weapon():
+	var weapons = ["khopesh", "spear", "axe"]
+	var current_type = ""
+
+	if current_weapon:
+		if "Khopesh" in current_weapon.weapon_name:
+			current_type = "khopesh"
+		elif "Spear" in current_weapon.weapon_name:
+			current_type = "spear"
+		elif "Axe" in current_weapon.weapon_name:
+			current_type = "axe"
+
+	var current_index = weapons.find(current_type)
+	var next_index = (current_index + 1) % weapons.size()
+
+	equip_weapon(weapons[next_index])
 
 func start_attack():
+	if not current_weapon or not current_weapon.can_attack():
+		return
+
 	current_state = PlayerState.ATTACKING
-	attack_performed.emit()
 
-	# Attack animation will call _on_attack_finished when done
-	if animated_sprite.has_animation("attack"):
-		animated_sprite.play("attack")
+	# Orient weapon towards mouse/movement direction
+	orient_weapon()
+
+	# Start weapon attack
+	if current_weapon.start_attack():
+		attack_performed.emit()
+		print("[Player] Attacking with ", current_weapon.weapon_name)
+
+func orient_weapon():
+	if not current_weapon:
+		return
+
+	# Get direction towards mouse cursor
+	var mouse_pos = get_global_mouse_position()
+	var direction = (mouse_pos - global_position).normalized()
+
+	# Set weapon rotation
+	current_weapon.rotation = direction.angle()
+
+	# Flip weapon holder if attacking to the left
+	if direction.x < 0:
+		weapon_holder.scale.y = -1
 	else:
-		# Placeholder - immediate attack finish
-		call_deferred("_on_attack_finished")
+		weapon_holder.scale.y = 1
 
-	print("[Player] Khopesh attack!")
+func _on_weapon_attack_started():
+	print("[Player] Weapon attack started")
 
-func _on_attack_finished():
+func _on_weapon_hit(target: Node, damage_dealt: int):
+	print("[Player] Hit ", target.name, " for ", damage_dealt, " damage")
+
+func _on_weapon_attack_finished():
 	current_state = PlayerState.IDLE
+	print("[Player] Weapon attack finished")
 
 func update_timers(delta):
 	# Dash timer
@@ -132,44 +270,29 @@ func update_timers(delta):
 		dash_cooldown_timer -= delta
 		if dash_cooldown_timer <= 0:
 			can_dash = true
+			queue_redraw()  # Update cooldown visual
 
 	# I-frames
 	if iframe_timer > 0:
 		iframe_timer -= delta
+		queue_redraw()  # Update flashing visual
 
 func update_animation():
-	if not animated_sprite:
-		return
-
-	# Update sprite direction based on movement
-	if velocity.x != 0:
-		animated_sprite.flip_h = velocity.x < 0
-
-	# Play appropriate animation
-	match current_state:
-		PlayerState.IDLE:
-			if animated_sprite.has_animation("idle"):
-				if animated_sprite.animation != "idle":
-					animated_sprite.play("idle")
-
-		PlayerState.WALKING:
-			if animated_sprite.has_animation("walk"):
-				if animated_sprite.animation != "walk":
-					animated_sprite.play("walk")
-
-		PlayerState.DASHING:
-			if animated_sprite.has_animation("dash"):
-				if animated_sprite.animation != "dash":
-					animated_sprite.play("dash")
-
-		PlayerState.ATTACKING:
-			# Attack animation is already playing
-			pass
-
-		PlayerState.HURT:
-			if animated_sprite.has_animation("hurt"):
-				if animated_sprite.animation != "hurt":
-					animated_sprite.play("hurt")
+	# For now, just print state changes for validation
+	static var last_state = PlayerState.IDLE
+	if current_state != last_state:
+		match current_state:
+			PlayerState.IDLE:
+				print("[Player] State: IDLE")
+			PlayerState.WALKING:
+				print("[Player] State: WALKING")
+			PlayerState.DASHING:
+				print("[Player] State: DASHING")
+			PlayerState.ATTACKING:
+				print("[Player] State: ATTACKING")
+			PlayerState.HURT:
+				print("[Player] State: HURT")
+		last_state = current_state
 
 func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO):
 	if iframe_timer > 0:
@@ -207,9 +330,7 @@ func heal(amount: int):
 func die():
 	current_state = PlayerState.HURT
 	velocity = Vector2.ZERO
-
-	if animated_sprite.has_animation("death"):
-		animated_sprite.play("death")
+	placeholder_color = Color.DARK_RED
 
 	# Disable player input and collision
 	set_physics_process(false)
@@ -229,3 +350,14 @@ func get_dash_cooldown_percentage() -> float:
 	if can_dash:
 		return 0.0
 	return dash_cooldown_timer / dash_cooldown
+
+# Validation functions
+func validate_systems():
+	print("[Player] === SYSTEM VALIDATION ===")
+	print("[Player] Health: ", health, "/", max_health)
+	print("[Player] Speed: ", base_speed)
+	print("[Player] Position: ", global_position)
+	print("[Player] Can dash: ", can_dash)
+	print("[Player] Current state: ", PlayerState.keys()[current_state])
+	print("[Player] Collision shape: ", collision_shape.shape != null)
+	print("[Player] === VALIDATION COMPLETE ===")

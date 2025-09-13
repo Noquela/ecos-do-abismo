@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[node name="root" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="HurtShape" type="CollisionShape2D" parent="HurtBox"]
