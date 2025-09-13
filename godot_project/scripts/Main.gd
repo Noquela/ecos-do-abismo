@@ -1,0 +1,44 @@
+extends Node2D
+
+@onready var camera: CameraController = $Camera2D
+var player: Player
+
+func _ready():
+	setup_scene()
+
+func setup_scene():
+	# Load and instantiate player
+	var player_scene = preload("res://scenes/player/Player.tscn")
+	player = player_scene.instantiate()
+	player.position = Vector2(0, 0)  # Center of the room
+	add_child(player)
+
+	# Setup camera to follow player
+	camera.set_target(player)
+
+	# Connect player signals
+	player.health_changed.connect(_on_player_health_changed)
+	player.player_died.connect(_on_player_died)
+	player.dash_used.connect(_on_player_dash_used)
+	player.attack_performed.connect(_on_player_attack_performed)
+
+	print("[Main] Egyptian tomb initialized - The adventure begins!")
+
+func _on_player_health_changed(new_health: int, max_health: int):
+	print("[Main] Player health: ", new_health, "/", max_health)
+
+func _on_player_died():
+	print("[Main] Game Over - The pharaoh's curse claims another soul...")
+	# TODO: Show game over screen
+
+func _on_player_dash_used():
+	# Camera shake on dash
+	camera.shake_camera(2.0, 0.1)
+
+func _on_player_attack_performed():
+	# Small camera shake on attack
+	camera.shake_camera(1.0, 0.05)
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
