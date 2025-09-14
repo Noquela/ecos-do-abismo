@@ -14,6 +14,7 @@ var dash_timer: float = 0.0
 
 # Componentes
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var weapon_system: Node2D = $WeaponSystem
 
 func _ready():
 	print("[Player] Egyptian warrior ready for isometric combat!")
@@ -29,7 +30,12 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_input():
-	# Debug: mostrar quando dash input é detectado
+	# Attack input
+	if Input.is_action_just_pressed("attack") and weapon_system:
+		if weapon_system.start_attack():
+			print("[Player] Attack command sent to weapon system")
+
+	# Dash input
 	if Input.is_action_just_pressed("dash"):
 		print("[Player] DASH INPUT DETECTED! is_dashing=", is_dashing)
 		if not is_dashing:
