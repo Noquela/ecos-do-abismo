@@ -72,7 +72,6 @@ func start_attack() -> bool:
 	is_attacking = true
 	attack_cooldown = 1.0 / stats["attack_speed"]
 
-	print("[WeaponSystem] Attack started with ", stats["name"], " - damage: ", stats["damage"])
 
 	# Detectar colisões no alcance da arma
 	detect_weapon_collisions()
@@ -85,7 +84,6 @@ func start_attack() -> bool:
 
 func _on_attack_finished():
 	is_attacking = false
-	print("[WeaponSystem] Attack finished")
 
 func get_current_damage() -> int:
 	return weapon_stats[current_weapon]["damage"]
@@ -134,7 +132,6 @@ func detect_weapon_collisions():
 		var enemy = result.collider
 		if enemy and enemy.has_method("take_damage"):
 			enemy.take_damage(weapon_damage)
-			print("[WeaponSystem] Hit enemy with ", stats["name"], " for ", weapon_damage, " damage")
 
 func create_arc_collision_shape(weapon_range: float, _arc_angle: float) -> CircleShape2D:
 	# Para khopesh - usar círculo por simplicidade, refinamento futuro com arc custom

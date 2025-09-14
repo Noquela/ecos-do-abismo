@@ -33,8 +33,7 @@ func _physics_process(delta):
 func handle_input():
 	# Attack input
 	if Input.is_action_just_pressed("attack") and weapon_system:
-		if weapon_system.start_attack():
-			print("[Player] Attack command sent to weapon system")
+		weapon_system.start_attack()
 
 	# Dash input
 	if Input.is_action_just_pressed("dash"):
@@ -56,7 +55,6 @@ func handle_movement(delta):
 		# Converter input para coordenadas isométricas
 		var isometric_input = IsometricUtils.convert_input_to_isometric(raw_input)
 		velocity = isometric_input * speed
-		print("[Player] Isometric movement: raw=", raw_input, " iso=", isometric_input)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, speed * 3.0 * delta)
 

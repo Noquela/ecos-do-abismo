@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/IsometricCamera.gd" id="2"]
 [ext_resource type="Script" path="res://scripts/IsometricDebugGrid.gd" id="3"]
 [ext_resource type="Script" path="res://scripts/WeaponSystem.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/IsometricTileMap.gd" id="6"]
 
 [node name="Main" type="Node2D"]
+
+[node name="IsometricTileMap" type="TileMap" parent="."]
+script = ExtResource("6")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("1")

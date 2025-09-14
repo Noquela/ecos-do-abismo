@@ -41,14 +41,12 @@ func take_damage(damage: int):
 		return
 
 	current_health -= damage
-	print("[Enemy] Took ", damage, " damage. Health: ", current_health, "/", max_health)
 
 	if current_health <= 0:
 		die()
 
 func die():
 	is_dead = true
-	print("[Enemy] Enemy died!")
 
 	# Efeito visual de morte
 	var tween = create_tween()
