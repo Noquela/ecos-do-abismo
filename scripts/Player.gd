@@ -18,6 +18,7 @@ var dash_timer: float = 0.0
 
 func _ready():
 	print("[Player] Egyptian warrior ready for isometric combat!")
+	add_to_group("player")
 	setup_collision()
 
 func _physics_process(delta):

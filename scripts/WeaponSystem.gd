@@ -74,6 +74,9 @@ func start_attack() -> bool:
 
 	print("[WeaponSystem] Attack started with ", stats["name"], " - damage: ", stats["damage"])
 
+	# Detectar colisões no alcance da arma
+	detect_weapon_collisions()
+
 	# Timer para duração do ataque
 	var attack_timer = get_tree().create_timer(0.3)
 	attack_timer.timeout.connect(_on_attack_finished)
@@ -89,6 +92,67 @@ func get_current_damage() -> int:
 
 func get_current_range() -> float:
 	return weapon_stats[current_weapon]["range"]
+
+func detect_weapon_collisions():
+	# Sistema de colisão isométrico para armas
+	var stats = weapon_stats[current_weapon]
+	var player_pos = get_parent().global_position
+	var weapon_range = stats["range"]
+	var weapon_damage = stats["damage"]
+
+	# Criar shape de colisão baseado no tipo de arma e perspectiva isométrica
+	var collision_shape: Shape2D
+	var collision_transform: Transform2D
+
+	match current_weapon:
+		WeaponType.KHOPESH:
+			# Colisão em arco para khopesh (ataque curvado)
+			collision_shape = create_arc_collision_shape(weapon_range, PI/3)
+		WeaponType.SPEAR_OF_RA:
+			# Colisão linear para lança (ataque em linha)
+			collision_shape = create_linear_collision_shape(weapon_range, 20)
+		WeaponType.AXE_OF_SOBEK:
+			# Colisão em cone para machado (ataque amplo)
+			collision_shape = create_cone_collision_shape(weapon_range, PI/2)
+
+	# Posicionar shape baseado na orientação da arma
+	collision_transform = Transform2D(weapon_angle, player_pos + weapon_offset)
+
+	# Query collision usando PhysicsServer2D para isométrico
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.shape = collision_shape
+	query.transform = collision_transform
+	query.collision_mask = 1 << 1  # Layer 2: Enemies (conforme project.godot)
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+
+	var results = space_state.intersect_shape(query)
+
+	# Processar hits
+	for result in results:
+		var enemy = result.collider
+		if enemy and enemy.has_method("take_damage"):
+			enemy.take_damage(weapon_damage)
+			print("[WeaponSystem] Hit enemy with ", stats["name"], " for ", weapon_damage, " damage")
+
+func create_arc_collision_shape(weapon_range: float, _arc_angle: float) -> CircleShape2D:
+	# Para khopesh - usar círculo por simplicidade, refinamento futuro com arc custom
+	var shape = CircleShape2D.new()
+	shape.radius = weapon_range * 0.7  # Arco menor que range completo
+	return shape
+
+func create_linear_collision_shape(weapon_range: float, width: float) -> RectangleShape2D:
+	# Para lança - retângulo linear
+	var shape = RectangleShape2D.new()
+	shape.size = Vector2(weapon_range, width)
+	return shape
+
+func create_cone_collision_shape(weapon_range: float, _cone_angle: float) -> CircleShape2D:
+	# Para machado - usar círculo maior, refinamento futuro com cone custom
+	var shape = CircleShape2D.new()
+	shape.radius = weapon_range * 0.8  # Cone menor que range completo
+	return shape
 
 func _draw():
 	# Desenhar arma na orientação correta para perspectiva isométrica
