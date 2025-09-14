@@ -10,11 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Duat - Egyptian Hack'n'Slash"
+config/name="Duat - Egyptian Hack'n'Slash [ISOMETRIC]"
 config/description="Isometric hack'n'slash with bullet hell mechanics inspired by Hades, set in ancient Egypt."
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
 
 [display]
 
@@ -70,6 +69,10 @@ dash={
 2d_physics/layer_3="Projectiles"
 2d_physics/layer_4="Environment"
 2d_physics/layer_5="Pickups"
+
+[autoload]
+
+IsometricUtils="*res://scripts/IsometricUtils.gd"
 
 [rendering]
 
