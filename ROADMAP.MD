@@ -1,9 +1,14 @@
-# 🎮 Roadmap Detalhado – Projeto Hack 'n' Slash + Bullet Hell Egípcio
+# 🎮 Roadmap Detalhado – Projeto Hack 'n' Slash + Bullet Hell Egípcio [MIGRAÇÃO ISOMÉTRICA]
 
 ## 📋 Visão Geral do Projeto
 **Conceito:** Hack 'n' slash isométrico 2D inspirado em Hades, com temática egípcia e mecânicas bullet hell
-**Duração estimada:** 4-6 meses (16 sprints de 1-2 semanas cada)
+**Duração estimada:** 5-7 meses (18 sprints de 1-2 semanas cada)
 **Target:** MVP jogável de 10-15 minutos com assets gerados por IA local
+
+## 🔄 STATUS ATUAL: MIGRAÇÃO PARA VISTA ISOMÉTRICA
+**Situação:** Jogo funcionando em vista top-down, migrando para vista isométrica verdadeira
+**Gameplay Core:** ✅ Completo (movimento, combat, projectiles, weapons, enemies)
+**Próximo objetivo:** Implementar vista isométrica mantendo toda funcionalidade existente
 
 ---
 
@@ -64,118 +69,204 @@ projeto_egipcio/
 
 ---
 
-## 📈 Fases Detalhadas
+## 📈 Fases Detalhadas - MIGRAÇÃO ISOMÉTRICA
 
-### **🏗 Fase 1 – Fundamentos do Gameplay (3 sprints)**
+### **🔄 Fase 1 – MIGRAÇÃO ISOMÉTRICA (3 sprints)**
+> **OBJETIVO:** Converter o jogo top-down existente para vista isométrica verdadeira mantendo toda funcionalidade atual
 
-#### **Sprint 1: Sistema de Movimento (Semana 1-2)**
+#### **Sprint 1: Camera & Input System Isométrico (Semana 1-2)**
 
 **Objetivos:**
-- Player controller responsivo com movimento 8-direções
-- Sistema de dash com cooldown e i-frames
-- Câmera que segue o player suavemente
+- Implementar câmera isométrica (30° rotation)
+- Converter input WASD para movimento diagonal isométrico
+- Manter toda funcionalidade de movimento existente
 
-**Tarefas técnicas:**
-- [ ] Criar cena `Player.tscn` com `CharacterBody2D`
-- [ ] Script de movimento usando `move_and_slide()`
-- [ ] Implementar dash com `Timer` para cooldown
-- [ ] Sistema de i-frames usando `Area2D` e `CollisionShape2D`
-- [ ] Câmera com `Camera2D` e interpolação suave
-- [ ] Input mapping configurável
-- [ ] Debug visuals para hitboxes
+**🚨 SISTEMAS A MIGRAR:**
+- [x] **BASE FUNCIONAL:** Sistema top-down completo ✅
+- [ ] **CAMERA:** Rotação 30° para vista isométrica
+- [ ] **INPUT:** Conversão WASD → coordenadas isométricas
+- [ ] **COORDINATE SYSTEM:** Funções world_to_iso() e iso_to_world()
+- [ ] **MOVEMENT:** Ajustar CharacterBody2D para perspectiva
+- [ ] **COLLISION:** Validar collision detection isométrico
+
+**🔥 INTEGRAÇÃO ISOMÉTRICA CRÍTICA:**
+- [ ] Camera2D com rotação Z = 30° (ou 26.565°)
+- [ ] Input vector conversion para diagonal movement
+- [ ] Manter smooth camera following
+- [ ] Preservar dash e i-frames functionality
+- [ ] Debug visual adaptado para perspectiva isométrica
 
 **Critérios de aceitação:**
-- Player se move fluidamente em 8 direções
-- Dash funciona com feedback visual (trail/flash)
-- Não há stuck em paredes ou objetos
-- Performance > 60 FPS em máquina target
+- [ ] Vista isométrica funcionando (não mais top-down)
+- [ ] WASD move diagonalmente correto na perspectiva
+- [ ] Dash funciona na direção visual correta
+- [ ] Camera segue player suavemente em isométrico
+- [ ] Performance mantida > 60 FPS
+- [ ] **VALIDAÇÃO VISUAL**: Player se move "naturalmente" na vista isométrica
 
-#### **Sprint 2: Sistema de Combate Base (Semana 3-4)**
+#### **Sprint 2: Sprites & Collision Isométrico (Semana 3-4)**
 
 **Objetivos:**
-- 3 armas distintas com diferentes stats
-- Sistema de hitbox/hurtbox
-- Feedback audiovisual para ataques
+- Adaptar sistema visual para perspectiva isométrica
+- Ajustar collision detection se necessário
+- Preparar pipeline para sprites isométricos
 
-**Tarefas técnicas:**
-- [ ] Classe base `Weapon` com stats (damage, speed, range, knockback)
-- [ ] Implementar `MeleeWeapon` que herda de `Weapon`
-- [ ] Sistema de `HitBox` e `HurtBox` com layers de colisão
-- [ ] Animações de ataque (placeholder retangular)
-- [ ] Screen shake para impactos
-- [ ] Partículas simples para acertos
-- [ ] Sistema de dano com resistências
+**🚨 SISTEMAS A MIGRAR:**
+- [x] **COMBAT BASE:** Sistema de armas completo ✅
+- [ ] **SPRITE RENDERING:** Adaptar _draw() para perspectiva isométrica
+- [ ] **WEAPON ORIENTATION:** Ajustar orientação armas para vista isométrica
+- [ ] **COLLISION DETECTION:** Validar hitboxes em perspectiva
+- [ ] **VISUAL FEEDBACK:** Cores e estados adaptados para isométrico
+- [ ] **PLACEHOLDER SPRITES:** Redesenhar formas para perspectiva isométrica
+
+**🔥 INTEGRAÇÃO ISOMÉTRICA CRÍTICA:**
+- [ ] Sistema _draw() renderizando em coordenadas isométricas
+- [ ] Weapon holder orientação correta na perspectiva
+- [ ] Mouse targeting adaptado para isométrico
+- [ ] Collision shapes funcionando corretamente
+- [ ] Debug visuals em perspectiva isométrica
+- [ ] Dash visual correto na vista isométrica
+
+**Critérios de aceitação:**
+- [ ] Sprites/formas renderizando corretamente em isométrico
+- [ ] Sistema de combate funcionando na nova perspectiva
+- [ ] Orientação de armas visual correta
+- [ ] Collision detection preciso
+- [ ] **VALIDAÇÃO VISUAL**: Combat system "natural" em vista isométrica
 
 **Weapons specs:**
 - **Khopesh (Espada):** 25 dano, 1.5 ataques/seg, alcance 80px
 - **Lança de Rá:** 35 dano, 1.0 ataques/seg, alcance 120px  
 - **Machado de Sobek:** 50 dano, 0.7 ataques/seg, alcance 100px
 
-#### **Sprint 3: Inimigos Melee Básicos (Semana 5-6)**
+#### **Sprint 3: Projectiles & Bullet Hell Isométrico (Semana 5-6)**
 
 **Objetivos:**
-- IA básica de perseguição
-- Sistema de estados para inimigos
-- Balance inicial de combate
+- Adaptar sistema de projéteis para vista isométrica
+- Manter bullet hell patterns funcionando
+- Completar migração isométrica dos sistemas core
 
-**Tarefas técnicas:**
-- [ ] Classe base `Enemy` com FSM (Finite State Machine)
-- [ ] Estados: Idle, Chase, Attack, Hurt, Death
-- [ ] Pathfinding simples com `NavigationAgent2D`
-- [ ] Inimigo básico "Múmia Guerreira" (30 HP, 15 dano)
-- [ ] Mini-boss "Guardião Anubis" (100 HP, 25 dano, ataque em área)
-- [ ] Spawn system básico
-- [ ] Drops simples (health orbs)
+**🚨 SISTEMAS A MIGRAR:**
+- [x] **BULLET HELL BASE:** ProjectilePool e 15+ patterns ✅
+- [x] **ENEMY AI BASE:** Estados e pathfinding completos ✅
+- [ ] **PROJECTILE TRAJECTORY:** Adaptar trajetórias para perspectiva isométrica
+- [ ] **BULLET PATTERNS:** Ajustar patterns (espiral, círculo, etc) para vista isométrica
+- [ ] **ENEMY POSITIONING:** Ajustar spawn e movimento para isométrico
+- [ ] **PATHFINDING:** Validar NavigationAgent2D em perspectiva
+
+**🔥 INTEGRAÇÃO ISOMÉTRICA CRÍTICA:**
+- [ ] Projéteis seguindo trajetória visual correta
+- [ ] Bullet patterns mantendo elegância visual
+- [ ] Enemy AI navegando corretamente na perspectiva
+- [ ] Collision projétil→player precisa em isométrico
+- [ ] Visual feedback de impactos adaptado
+- [ ] Object pooling mantendo performance
+
+**Critérios de aceitação:**
+- [ ] Projéteis voando na direção visual correta
+- [ ] Bullet patterns elegantes em vista isométrica
+- [ ] Enemies perseguindo/atacando corretamente
+- [ ] Performance > 60 FPS com 100+ projéteis
+- [ ] **VALIDAÇÃO VISUAL**: Bullet hell "natural" em isométrico
+- [ ] **MIGRAÇÃO COMPLETA**: Todos sistemas core funcionando em vista isométrica
 
 ---
 
-### **⚡ Fase 2 – Mecânicas Bullet Hell (3 sprints)**
+### **🎨 Fase 2 – ISOMETRIC CONTENT & ASSETS (3 sprints)**
+> **OBJETIVO:** Criar conteúdo específico para vista isométrica e gerar assets por IA
 
-#### **Sprint 4: Inimigos Caster (Semana 7-8)**
+#### **Sprint 4: TileMap Isométrico & Level Design (Semana 7-8)**
 
 **Objetivos:**
-- Projéteis básicos que seguem física
-- Inimigos que mantêm distância e atacam à distância
+- Implementar TileMap isométrico (tiles em diamante)
+- Criar layouts de sala específicos para vista isométrica
+- Sistema de colisão isométrico para cenário
 
-**Tarefas técnicas:**
-- [ ] Classe `Projectile` com `RigidBody2D`
-- [ ] Pool de projéteis para performance
-- [ ] Inimigo "Sacerdote de Thoth" (40 HP, projéteis retos)
-- [ ] Sistema de mira preditiva
-- [ ] Collision layers separadas para projéteis
-- [ ] Efeitos visuais para trajetos de projéteis
+**🚨 SISTEMAS A IMPLEMENTAR:**
+- [ ] **TILEMAP ISOMETRIC:** Implementar sistema de tiles diamante
+- [ ] **TILE COLLISION:** Sistema de colisão para tiles isométricos
+- [ ] **ROOM LAYOUTS:** Designs de sala otimizados para vista isométrica
+- [ ] **NAVIGATION:** NavigationRegion2D para pathfinding isométrico
+- [ ] **LIGHTING:** Sistema básico de lighting para profundidade isométrica
+- [ ] **CAMERA BOUNDS:** Limites de câmera para salas isométricas
+
+**🔥 INTEGRAÇÃO ISOMÉTRICA CRÍTICA:**
+- [ ] TileMap renderizando corretamente em perspectiva
+- [ ] Player navegando naturalmente no cenário isométrico
+- [ ] Enemies usando pathfinding correto nos tiles
+- [ ] Collision detection precisa entre player/enemies/tiles
+- [ ] Visual depth cues para orientação espacial
+- [ ] Performance otimizada para rendering isométrico
+
+**Critérios de aceitação:**
+- [ ] TileMap isométrico funcional e navegável
+- [ ] Player não "flutua" ou clippa nos tiles
+- [ ] Enemies navegam corretamente no cenário
+- [ ] Visual hierarchy clara (frente/trás)
+- [ ] **VALIDAÇÃO VISUAL**: Cenário isométrico convincente e jogável
 
 **Specs dos projéteis:**
 - **Básico:** 10 dano, velocidade 300px/s
 - **Fogo (Ra):** 12 dano, velocidade 250px/s, queima por 2s
 - **Gelo (Nut):** 8 dano, velocidade 200px/s, slow por 1s
 
-#### **Sprint 5: Padrões de Projéteis Avançados (Semana 9-10)**
+#### **Sprint 5: Assets IA Isométricos (Semana 9-10)**
 
 **Objetivos:**
-- Bullet patterns complexos e visualmente interessantes
-- Sistema modular para criar novos padrões
+- Gerar sprites isométricos profissionais via ComfyUI + SDXL
+- Substituir placeholders por assets egípcios de alta qualidade
+- Pipeline automatizado para geração isométrica
 
-**Tarefas técnicas:**
-- [ ] Sistema `BulletPattern` com diferentes tipos
-- [ ] Padrão "Espiral de Khepri" (projéteis em espiral)
-- [ ] Padrão "Leque de Isis" (cone de projéteis)
-- [ ] Padrão "Onda de Poseidon" (ondas circulares)
-- [ ] Padrão "Chuva de Meteoros" (projéteis que caem do céu)
-- [ ] Editor visual para criar padrões (se tempo permitir)
+**🚨 GERAÇÃO IA ESPECÍFICA ISOMÉTRICA:**
+- [ ] **PROMPTS ISOMÉTRICOS:** Adaptar prompts para "isometric view, 30-degree angle"
+- [ ] **PLAYER SPRITES:** Guerreiro egípcio em perspectiva isométrica
+- [ ] **ENEMY SPRITES:** Múmia, Sacerdote, etc. em vista isométrica
+- [ ] **WEAPON SPRITES:** Khopesh, Spear, Axe orientados isometricamente
+- [ ] **PROJECTILE SPRITES:** Fire bolt, ice shard em perspectiva correta
+- [ ] **PIPELINE BATCH:** Sistema automático para geração em lote
 
-#### **Sprint 6: Inimigos Híbridos (Semana 11-12)**
+**🔥 INTEGRAÇÃO DE ASSETS ISOMÉTRICOS:**
+- [ ] ComfyUI configurado para prompts isométricos
+- [ ] rembg + transparência funcionando para sprites isométricos
+- [ ] Auto-import Godot preservando orientação
+- [ ] Teste A/B: placeholders vs. IA sprites
+- [ ] Validação visual: assets "encaixam" na perspectiva
+- [ ] Performance mantida com sprites reais
+
+**Critérios de aceitação:**
+- [ ] Sprites isométricos de alta qualidade gerados
+- [ ] Assets integrados mantendo funcionalidade
+- [ ] Visual consistency entre todos elementos
+- [ ] **VALIDAÇÃO VISUAL**: Jogo com visual profissional isométrico
+
+#### **Sprint 6: Polish Isométrico & Performance (Semana 11-12)**
 
 **Objetivos:**
-- Inimigos que alternam entre melee e ranged
-- Boss fight básico como teste
+- Otimizar performance para vista isométrica
+- Polish visual e UX para perspectiva isométrica
+- Validação completa do sistema migrado
 
-**Tarefas técnicas:**
-- [ ] Inimigo "Guerreiro-Mago de Seth" (80 HP)
-- [ ] FSM expandido com estados de transição
-- [ ] Mini-boss "Avatar de Hórus" (150 HP, 3 fases)
-- [ ] Telegraphing para ataques especiais
-- [ ] Sistema de fases para bosses
+**🚨 POLISH & OPTIMIZATION ISOMÉTRICA:**
+- [ ] **PERFORMANCE:** Profiling específico para rendering isométrico
+- [ ] **VISUAL POLISH:** Depth sorting, Z-ordering correto
+- [ ] **UX OPTIMIZATION:** Interface adaptada para perspectiva
+- [ ] **CAMERA POLISH:** Smooth follow otimizado para isométrico
+- [ ] **LIGHTING EFFECTS:** Sombras e profundidade visual
+- [ ] **AUDIO POSITIONING:** Som posicional adaptado para perspectiva
+
+**🔥 INTEGRAÇÃO FINAL ISOMÉTRICA:**
+- [ ] Todos sistemas funcionando harmoniosamente
+- [ ] Performance > 60 FPS garantida
+- [ ] Visual quality profissional mantida
+- [ ] UX intuitiva na nova perspectiva
+- [ ] Bug-free gameplay em vista isométrica
+- [ ] Ready para próximas fases de conteúdo
+
+**Critérios de aceitação:**
+- [ ] Jogo completamente funcional em vista isométrica
+- [ ] Performance otimizada e estável
+- [ ] Visual polish profissional
+- [ ] **VALIDAÇÃO FINAL**: Sistema isométrico completo e pronto para expansão
 
 ---
 
@@ -238,7 +329,16 @@ projeto_egipcio/
 
 ### **🎨 Integração de Assets IA por Sprint**
 
-**ESTRATÉGIA: Gameplay primeiro, Assets depois - INÍCIO CONFIRMADO SPRINT 4**
+**ESTRATÉGIA: Gameplay primeiro, Assets depois - INTEGRAÇÃO AO LOOP PRINCIPAL É CRÍTICA**
+
+> ⚠️ **IMPORTANTE**: Cada sistema implementado DEVE ser integrado ao loop principal do jogo e validado através de gameplay real. Não basta criar o código - tem que funcionar visualmente e ser testável pelo usuário.
+
+**CHECKLIST DE INTEGRAÇÃO OBRIGATÓRIO:**
+- ✅ Sistema funciona via código
+- ✅ Sistema está conectado ao loop principal (`_ready()`, `_physics_process()`, `_process()`)
+- ✅ Sistema tem feedback visual (sprite, cor, debug draw)
+- ✅ Sistema responde a input do jogador
+- ✅ Sistema pode ser validado em tempo real (não apenas "tela cinza")
 
 ✅ **Sprint 1-3: MECÂNICAS CORE COMPLETAS**
 - Sistema de movimento e dash ✅

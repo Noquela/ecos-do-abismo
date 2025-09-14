@@ -17,7 +17,10 @@
       "mcp__godot__add_node",
       "mcp__godot__run_project",
       "mcp__godot__get_debug_output",
-      "mcp__godot__stop_project"
+      "mcp__godot__stop_project",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(taskkill:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
