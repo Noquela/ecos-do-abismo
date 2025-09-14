@@ -5,8 +5,8 @@ extends CharacterBody2D
 
 # Configurações de movimento
 @export var speed: float = 300.0
-@export var dash_power: float = 800.0
-@export var dash_duration: float = 0.3
+@export var dash_power: float = 1200.0
+@export var dash_duration: float = 0.5
 
 # Estado
 var is_dashing: bool = false
@@ -29,11 +29,19 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_input():
-	# Dash input
-	if Input.is_action_just_pressed("dash") and not is_dashing:
-		start_dash()
+	# Debug: mostrar quando dash input é detectado
+	if Input.is_action_just_pressed("dash"):
+		print("[Player] DASH INPUT DETECTED! is_dashing=", is_dashing)
+		if not is_dashing:
+			start_dash()
+		else:
+			print("[Player] Dash ignored - already dashing")
 
 func handle_movement(delta):
+	# NÃO MOVER DURANTE DASH - deixa o dash controlar velocity
+	if is_dashing:
+		return
+
 	# ROADMAP CRÍTICO: Input vector conversion para diagonal movement
 	var raw_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
@@ -46,15 +54,34 @@ func handle_movement(delta):
 		velocity = velocity.move_toward(Vector2.ZERO, speed * 3.0 * delta)
 
 func start_dash():
+	print("[Player] start_dash() called - is_dashing=", is_dashing)
 	if is_dashing:
+		print("[Player] Dash blocked - already dashing")
 		return
 
 	var input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	if input_vector == Vector2.ZERO:
-		return
+	var dash_direction: Vector2
 
-	# ROADMAP: Dash funciona na direção visual correta
-	var dash_direction = IsometricUtils.convert_input_to_isometric(input_vector)
+	print("[Player] Current input_vector: ", input_vector)
+	print("[Player] Current velocity: ", velocity)
+
+	# Se há input atual, usar essa direção
+	if input_vector != Vector2.ZERO:
+		# Converter input para isométrico
+		dash_direction = IsometricUtils.convert_input_to_isometric(input_vector)
+		print("[Player] Dash with current input: ", input_vector, " → ", dash_direction)
+	else:
+		print("[Player] No input detected - checking velocity")
+		# Se não há input, usar última direção de movimento ou direção padrão
+		if velocity.length() > 10:
+			# Usar direção atual do movimento (já está em coordenadas isométricas)
+			dash_direction = velocity.normalized()
+			print("[Player] Dash using current velocity direction: ", dash_direction)
+		else:
+			# Direção padrão para frente na vista isométrica
+			var default_input = Vector2(0, -1)  # W key direction
+			dash_direction = IsometricUtils.convert_input_to_isometric(default_input)
+			print("[Player] Dash using default direction: ", dash_direction)
 
 	is_dashing = true
 	dash_timer = dash_duration
@@ -78,19 +105,36 @@ func setup_collision():
 func _draw():
 	# ROADMAP: Debug visual adaptado para perspectiva isométrica
 	var player_color = Color.CYAN
+	var player_size = 20
+
 	if is_dashing:
-		player_color = Color.YELLOW
+		player_color = Color.RED  # VERMELHO BRILHANTE
+		player_size = 30  # MAIOR durante dash
 
 	# Desenhar player como losango para perspectiva isométrica
 	var diamond_points = PackedVector2Array([
-		Vector2(0, -20),  # Top
-		Vector2(16, 0),   # Right
-		Vector2(0, 20),   # Bottom
-		Vector2(-16, 0)   # Left
+		Vector2(0, -player_size),  # Top
+		Vector2(player_size * 0.8, 0),   # Right
+		Vector2(0, player_size),   # Bottom
+		Vector2(-player_size * 0.8, 0)   # Left
 	])
 
 	draw_colored_polygon(diamond_points, player_color)
 
 	# Desenhar direção do movimento para debug
 	if velocity.length() > 10:
-		draw_line(Vector2.ZERO, velocity.normalized() * 30, Color.WHITE, 3)
+		var line_color = Color.WHITE
+		var line_width = 3
+		if is_dashing:
+			line_color = Color.YELLOW  # AMARELO BRILHANTE
+			line_width = 8  # MUITO GROSSO
+		draw_line(Vector2.ZERO, velocity.normalized() * 60, line_color, line_width)
+
+	# Desenhar efeitos do dash - MUITO VISÍVEL
+	if is_dashing:
+		# Círculo pulsante
+		draw_circle(Vector2.ZERO, 35, Color.YELLOW, false, 5)
+		draw_circle(Vector2.ZERO, 45, Color.RED, false, 3)
+		# Trail atrás do player
+		var trail_pos = -velocity.normalized() * 25
+		draw_circle(trail_pos, 15, Color.ORANGE, false, 4)
