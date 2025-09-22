@@ -1,26 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git init:*)",
-      "Bash(git --version)",
-      "Bash(git clone:*)",
-      "Bash(git add:*)",
-      "Bash(git rm:*)",
-      "Bash(git commit:*)",
-      "Bash(git submodule add:*)",
-      "Bash(pip install:*)",
-      "Bash(python -m pip install:*)",
-      "Bash(python:*)",
-      "Bash(ffmpeg:*)",
-      "mcp__godot__get_godot_version",
-      "mcp__godot__create_scene",
-      "mcp__godot__add_node",
-      "mcp__godot__run_project",
-      "mcp__godot__get_debug_output",
-      "mcp__godot__stop_project",
-      "mcp__sequential-thinking__sequentialthinking",
-      "Bash(taskkill:*)",
-      "Bash(tree:*)"
+      "Bash(mkdir:*)",
+      "mcp__godot__list_projects",
+      "mcp__godot__launch_editor",
+      "Bash(gh:*)",
+      "Bash(Minha reputação me precede. Eles sabem como eu luto.)",
+      "Bash(git push:*)",
+      "WebSearch",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

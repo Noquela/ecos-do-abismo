@@ -1,0 +1,160 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0xgk8fqn2iy7"]
+
+[ext_resource type="Script" path="res://scripts/ui/Hub.gd" id="1_r8cwt"]
+
+[node name="Hub" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_r8cwt")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 100.0
+text = "⚔️ ECOS DO ABISMO ⚔️"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 120.0
+offset_right = 250.0
+offset_bottom = 200.0
+
+[node name="StatusContainer" type="VBoxContainer" parent="StatusPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="PlayerInfo" type="HBoxContainer" parent="StatusPanel/StatusContainer"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="StatusPanel/StatusContainer/PlayerInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "📈 Nível 1"
+vertical_alignment = 1
+
+[node name="CoinsLabel" type="Label" parent="StatusPanel/StatusContainer/PlayerInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "💰 50 moedas"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="XPProgress" type="VBoxContainer" parent="StatusPanel/StatusContainer"]
+layout_mode = 2
+
+[node name="XPLabel" type="Label" parent="StatusPanel/StatusContainer/XPProgress"]
+layout_mode = 2
+text = "✨ XP: 0/100"
+horizontal_alignment = 1
+
+[node name="XPBar" type="ProgressBar" parent="StatusPanel/StatusContainer/XPProgress"]
+layout_mode = 2
+value = 50.0
+show_percentage = false
+
+[node name="ActionButtons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 120.0
+
+[node name="PlayButton" type="Button" parent="ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🚀 NOVA RUN"
+custom_minimum_size = Vector2(300, 80)
+
+
+[node name="StatsSection" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_top = -200.0
+offset_right = 350.0
+offset_bottom = -40.0
+
+[node name="UpgradesPanel" type="Panel" parent="StatsSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UpgradesContainer" type="VBoxContainer" parent="StatsSection/UpgradesPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="UpgradesTitle" type="Label" parent="StatsSection/UpgradesPanel/UpgradesContainer"]
+layout_mode = 2
+text = "💪 UPGRADES ATIVOS"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="StatsSection/UpgradesPanel/UpgradesContainer"]
+layout_mode = 2
+text = "❤️ HP Máximo: 100
+⚡ Energia Inicial: 4
+⚔️ Bonus Dano: 0"
+
+[node name="ProgressPanel" type="Panel" parent="StatsSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProgressContainer" type="VBoxContainer" parent="StatsSection/ProgressPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="ProgressTitle" type="Label" parent="StatsSection/ProgressPanel/ProgressContainer"]
+layout_mode = 2
+text = "🏆 PROGRESSO"
+horizontal_alignment = 1
+
+[node name="ProgressLabel" type="Label" parent="StatsSection/ProgressPanel/ProgressContainer"]
+layout_mode = 2
+text = "🎯 Vitórias: 0
+🔥 Sequência Atual: 0
+🌟 Melhor Sequência: 0"

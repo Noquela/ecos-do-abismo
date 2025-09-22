@@ -1,0 +1,113 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8x0a0k2m5n4p"]
+
+[ext_resource type="Script" path="res://scripts/ui/RunMap.gd" id="1_m3k8r"]
+
+[node name="RunMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_m3k8r")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="Header" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 120.0
+
+[node name="Title" type="Label" parent="Header"]
+layout_mode = 2
+text = "🗺️ MAPA DA RUN 🗺️"
+horizontal_alignment = 1
+
+[node name="FloorInfo" type="Label" parent="Header"]
+layout_mode = 2
+text = "Andar 1 de 3"
+horizontal_alignment = 1
+
+[node name="PlayerStats" type="HBoxContainer" parent="Header"]
+layout_mode = 2
+
+[node name="HPLabel" type="Label" parent="Header/PlayerStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "❤️ HP: 100/100"
+
+[node name="GoldLabel" type="Label" parent="Header/PlayerStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "💰 50 moedas"
+horizontal_alignment = 2
+
+[node name="MapContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = 200.0
+
+[node name="MapGrid" type="GridContainer" parent="MapContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 5
+
+[node name="BottomPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -120.0
+offset_right = 300.0
+offset_bottom = -20.0
+
+[node name="BottomContainer" type="VBoxContainer" parent="BottomPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="NodeInfo" type="Label" parent="BottomPanel/BottomContainer"]
+layout_mode = 2
+text = "Próximo: ⚔️ Combate"
+horizontal_alignment = 1
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="BottomPanel/BottomContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="BottomPanel/BottomContainer/ButtonsContainer"]
+layout_mode = 2
+text = "◀ ABANDONAR RUN"
+custom_minimum_size = Vector2(150, 40)
+
+[node name="Spacer" type="Control" parent="BottomPanel/BottomContainer/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NextButton" type="Button" parent="BottomPanel/BottomContainer/ButtonsContainer"]
+layout_mode = 2
+text = "AVANÇAR ▶"
+custom_minimum_size = Vector2(150, 40)
