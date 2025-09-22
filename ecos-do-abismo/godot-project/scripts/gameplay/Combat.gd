@@ -1,4 +1,4 @@
-# Sprint 8+ - Combate com interface premium
+# Sprint 16 - Combate com Buffs Temporários
 extends Control
 
 @onready var back_btn = $BackButton
@@ -18,6 +18,10 @@ extends Control
 @onready var turn_label = $GameInfoPanel/GameInfo/TurnLabel
 @onready var enemy_number_label = $GameInfoPanel/GameInfo/EnemyNumberLabel
 @onready var streak_label = $GameInfoPanel/GameInfo/StreakLabel
+
+# Buff indicators
+var player_buff_indicator: Control
+var enemy_buff_indicator: Control
 
 var enemy_hp = 35
 var enemy_max_hp = 35

@@ -23,6 +23,7 @@ RelicSystem="*res://scripts/core/RelicSystem.gd"
 EventSystem="*res://scripts/core/EventSystem.gd"
 ShopSystem="*res://scripts/core/ShopSystem.gd"
 CampfireSystem="*res://scripts/core/CampfireSystem.gd"
+BuffSystem="*res://scripts/core/BuffSystem.gd"
 
 [display]
 

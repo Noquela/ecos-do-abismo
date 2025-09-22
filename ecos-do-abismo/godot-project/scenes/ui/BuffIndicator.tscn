@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bx7k9fqm8hy12"]
+
+[ext_resource type="Script" path="res://scripts/ui/BuffIndicator.gd" id="1_buff_indicator"]
+
+[node name="BuffIndicator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_buff_indicator")
+
+[node name="BuffsContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
