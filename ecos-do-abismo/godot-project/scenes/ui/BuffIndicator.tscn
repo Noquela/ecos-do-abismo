@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bx7k9fqm8hy12"]
+[gd_scene load_steps=2 format=3 uid="uid://bx7lafqm8hy12"]
 
 [ext_resource type="Script" path="res://scripts/ui/BuffIndicator.gd" id="1_buff_indicator"]
 

@@ -92,7 +92,8 @@ func _create_basic_attack_card() -> Dictionary:
 		"type": "attack",
 		"cost": 1,
 		"damage": 6,
-		"description": "Causa 6 de dano"
+		"description": "Causa 6 de dano",
+		"artwork": "res://assets/generated/cards/card_attack_golpe.png"
 	}
 
 func _create_basic_defense_card() -> Dictionary:
@@ -102,7 +103,8 @@ func _create_basic_defense_card() -> Dictionary:
 		"type": "defense",
 		"cost": 1,
 		"shield": 5,
-		"description": "Ganha 5 de escudo"
+		"description": "Ganha 5 de escudo",
+		"artwork": "res://assets/generated/cards/card_defense_escudo.png"
 	}
 
 func _create_basic_heal_card() -> Dictionary:
@@ -112,7 +114,8 @@ func _create_basic_heal_card() -> Dictionary:
 		"type": "heal",
 		"cost": 1,
 		"heal": 5,
-		"description": "Cura 5 HP"
+		"description": "Cura 5 HP",
+		"artwork": "res://assets/generated/cards/card_heal_pocao.png"
 	}
 
 func _generate_floor_map(floor_level: int):
@@ -197,6 +200,21 @@ func get_current_layer_choices() -> Array:
 	"""Obter opções de nodes na layer atual"""
 	return current_node_choices
 
+func get_current_layer() -> int:
+	"""Obter índice da layer atual"""
+	return current_layer
+
+func get_completed_nodes() -> Array:
+	"""Obter lista de nodes completados"""
+	return nodes_completed
+
+func get_current_position() -> Dictionary:
+	"""Obter posição atual do jogador"""
+	return {
+		"layer": current_layer,
+		"floor": current_floor
+	}
+
 func choose_node(choice_index: int) -> NodeType:
 	"""Escolher um node da layer atual"""
 	if choice_index < 0 or choice_index >= current_node_choices.size():
@@ -210,6 +228,29 @@ func choose_node(choice_index: int) -> NodeType:
 
 func complete_current_node():
 	"""Completar node atual e avançar"""
+	var current_node_type = get_current_node_type()
+
+	# INTEGRAÇÃO ABYSSSYSTEM: Ganhar corrupção por completar nodes
+	match current_node_type:
+		NodeType.COMBAT:
+			AbyssSystem.add_corruption(2)  # Combate normal: pouca corrupção
+			print("⚔️ Combate vencido (+2 Corrupção)")
+		NodeType.ELITE:
+			AbyssSystem.add_corruption(5)  # Elite: corrupção média
+			print("💀 Elite derrotado (+5 Corrupção)")
+		NodeType.BOSS:
+			AbyssSystem.add_corruption(10)  # Boss: muita corrupção
+			AbyssSystem.descend_depth(5)   # Descer muito mais fundo
+			print("👹 Boss derrotado - Descendo ao próximo nível do Abismo!")
+		NodeType.EVENT:
+			# Eventos podem ter corrupção variável
+			if randf() < 0.3:  # 30% chance de evento corrupto
+				AbyssSystem.trigger_corruption_event()
+		NodeType.REST:
+			# Fogueiras removem um pouco de corrupção
+			AbyssSystem.remove_corruption(3)
+			print("🔥 Descanso purifica levemente a corrupção (-3)")
+
 	nodes_completed.append(current_layer)
 
 	# Avançar para próxima layer
@@ -221,7 +262,7 @@ func complete_current_node():
 	else:
 		_setup_current_layer()
 
-	node_completed.emit(get_node_type_name(get_current_node_type()))
+	node_completed.emit(get_node_type_name(current_node_type))
 
 func _complete_floor():
 	"""Completar andar atual"""

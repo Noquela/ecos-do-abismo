@@ -147,14 +147,14 @@ func load_game():
 func get_available_cards() -> Array:
 	"""Retorna apenas cartas desbloqueadas"""
 	var all_cards = [
-		{"name": "Ataque", "cost": 1, "damage": 10, "type": "attack"},
-		{"name": "Golpe Forte", "cost": 3, "damage": 18, "type": "attack"},
-		{"name": "Cura", "cost": 2, "heal": 15, "type": "heal"},
-		{"name": "Defesa", "cost": 1, "shield": 8, "type": "defense"},
-		{"name": "Combo", "cost": 2, "damage": 12, "energy": 1, "type": "combo"},
-		{"name": "Foco", "cost": 1, "energy": 2, "type": "energy"},
-		{"name": "Devastar", "cost": 4, "damage": 25, "type": "attack"},
-		{"name": "Regenerar", "cost": 3, "heal": 20, "shield": 5, "type": "heal"}
+		{"name": "Ataque", "cost": 1, "damage": 10, "type": "attack", "artwork": "res://assets/generated/cards/card_attack_golpe.png", "description": "Inflige {damage} de dano sombrio"},
+		{"name": "Golpe Forte", "cost": 3, "damage": 18, "type": "attack", "artwork": "res://assets/generated/cards/card_attack_raio.png", "description": "Um golpe poderoso que inflige {damage} de dano"},
+		{"name": "Cura", "cost": 2, "heal": 15, "type": "heal", "artwork": "res://assets/generated/cards/card_heal_pocao.png", "description": "Restaura {heal} pontos de vida"},
+		{"name": "Defesa", "cost": 1, "shield": 8, "type": "defense", "artwork": "res://assets/generated/cards/card_defense_escudo.png", "description": "Ganha {shield} pontos de escudo"},
+		{"name": "Combo", "cost": 2, "damage": 12, "energy": 1, "type": "combo", "artwork": "res://assets/generated/cards/card_corruption_maldicao.png", "description": "Inflige {damage} dano e ganha {energy} energia"},
+		{"name": "Foco", "cost": 1, "energy": 2, "type": "energy", "artwork": "res://assets/generated/cards/card_echo_memoria.png", "description": "Ganha {energy} pontos de energia"},
+		{"name": "Devastar", "cost": 4, "damage": 25, "type": "attack", "artwork": "res://assets/generated/cards/card_corruption_sombra.png", "description": "Um ataque devastador que inflige {damage} de dano"},
+		{"name": "Regenerar", "cost": 3, "heal": 20, "shield": 5, "type": "heal", "artwork": "res://assets/generated/cards/card_heal_regeneracao.png", "description": "Restaura {heal} vida e ganha {shield} escudo"}
 	]
 
 	var available = []

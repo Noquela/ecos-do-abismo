@@ -30,7 +30,8 @@ func get_attack_cards() -> Array:
 			"cost": 1,
 			"damage": 6,
 			"rarity": Rarity.COMMON,
-			"description": "Causa 6 de dano"
+			"description": "Causa 6 de dano",
+			"artwork": "res://assets/generated/cards/card_attack_golpe.png"
 		},
 		{
 			"name": "Pancada",
@@ -52,12 +53,13 @@ func get_attack_cards() -> Array:
 
 		# INCOMUM
 		{
-			"name": "Corte Feroz",
+			"name": "Raio Trovão",
 			"type": "attack",
 			"cost": 1,
 			"damage": 8,
 			"rarity": Rarity.UNCOMMON,
-			"description": "Causa 8 de dano"
+			"description": "Causa 8 de dano elétrico",
+			"artwork": "res://assets/generated/cards/card_attack_raio.png"
 		},
 		{
 			"name": "Devastar",
@@ -102,12 +104,13 @@ func get_defense_cards() -> Array:
 	return [
 		# COMUM
 		{
-			"name": "Bloqueio",
+			"name": "Escudo Dourado",
 			"type": "defense",
 			"cost": 1,
 			"shield": 5,
 			"rarity": Rarity.COMMON,
-			"description": "Ganha 5 de escudo"
+			"description": "Ganha 5 de escudo",
+			"artwork": "res://assets/generated/cards/card_defense_escudo.png"
 		},
 		{
 			"name": "Defesa",
@@ -120,12 +123,13 @@ func get_defense_cards() -> Array:
 
 		# INCOMUM
 		{
-			"name": "Escudo de Ferro",
+			"name": "Barreira Rúnica",
 			"type": "defense",
 			"cost": 1,
 			"shield": 8,
 			"rarity": Rarity.UNCOMMON,
-			"description": "Ganha 8 de escudo"
+			"description": "Ganha 8 de escudo mágico",
+			"artwork": "res://assets/generated/cards/card_defense_barreira.png"
 		},
 		{
 			"name": "Fortaleza",
@@ -152,12 +156,13 @@ func get_skill_cards() -> Array:
 	return [
 		# COMUM
 		{
-			"name": "Poção",
+			"name": "Poção Mística",
 			"type": "heal",
 			"cost": 1,
 			"heal": 5,
 			"rarity": Rarity.COMMON,
-			"description": "Cura 5 HP"
+			"description": "Cura 5 HP",
+			"artwork": "res://assets/generated/cards/card_heal_pocao.png"
 		},
 		{
 			"name": "Energia Extra",
@@ -170,12 +175,13 @@ func get_skill_cards() -> Array:
 
 		# INCOMUM
 		{
-			"name": "Regeneração",
+			"name": "Regeneração Divina",
 			"type": "heal",
 			"cost": 2,
 			"heal": 10,
 			"rarity": Rarity.UNCOMMON,
-			"description": "Cura 10 HP"
+			"description": "Cura 10 HP",
+			"artwork": "res://assets/generated/cards/card_heal_regeneracao.png"
 		},
 		{
 			"name": "Concentração",
@@ -210,28 +216,101 @@ func get_skill_cards() -> Array:
 			"energy": 4,
 			"rarity": Rarity.RARE,
 			"description": "Ganha 4 de energia"
+		},
+
+		# SKILL CARDS COM BUFFS/DEBUFFS
+		{
+			"name": "Adaga Envenenada",
+			"type": "skill",
+			"cost": 1,
+			"damage": 4,
+			"applies_poison": 2,
+			"poison_duration": 3,
+			"rarity": Rarity.COMMON,
+			"description": "4 dano + Veneno (2) por 3 turnos"
+		},
+		{
+			"name": "Desarmar",
+			"type": "skill",
+			"cost": 1,
+			"applies_weakness": 3,
+			"weakness_duration": 2,
+			"rarity": Rarity.COMMON,
+			"description": "Inimigo perde 3 de dano por 2 turnos"
+		},
+		{
+			"name": "Exposição",
+			"type": "skill",
+			"cost": 1,
+			"applies_vulnerable": 50,
+			"vulnerable_duration": 2,
+			"rarity": Rarity.UNCOMMON,
+			"description": "Inimigo recebe 50% mais dano por 2 turnos"
+		},
+		{
+			"name": "Poção de Força",
+			"type": "skill",
+			"cost": 0,
+			"applies_strength": 4,
+			"strength_duration": 3,
+			"rarity": Rarity.UNCOMMON,
+			"description": "Ganha +4 Força por 3 turnos"
+		},
+		{
+			"name": "Regeneração",
+			"type": "skill",
+			"cost": 2,
+			"applies_regen": 3,
+			"regen_duration": 4,
+			"rarity": Rarity.RARE,
+			"description": "Recupera 3 HP por turno durante 4 turnos"
 		}
 	]
 
 func get_power_cards() -> Array:
-	"""Cartas de poder (modificadores persistentes)"""
+	"""Cartas de poder (buffs temporários e modificadores)"""
 	return [
-		# INCOMUM
+		# COMUM - Buffs temporários
+		{
+			"name": "Fúria",
+			"type": "power",
+			"cost": 1,
+			"damage_bonus": 3,
+			"rarity": Rarity.COMMON,
+			"description": "+3 Força por 3 turnos"
+		},
+		{
+			"name": "Foco",
+			"type": "power",
+			"cost": 1,
+			"energy_bonus": 1,
+			"rarity": Rarity.COMMON,
+			"description": "+1 Energia por 3 turnos"
+		},
+		{
+			"name": "Postura Defensiva",
+			"type": "power",
+			"cost": 1,
+			"shield_bonus": 2,
+			"rarity": Rarity.COMMON,
+			"description": "+2 Defesa por 3 turnos"
+		},
+		# INCOMUM - Buffs mais fortes
 		{
 			"name": "Força Interior",
 			"type": "power",
 			"cost": 1,
-			"damage_bonus": 2,
+			"permanent_damage": 2,
 			"rarity": Rarity.UNCOMMON,
-			"description": "Aumenta dano de ataques em 2 pelo resto do combate"
+			"description": "Aumenta dano em 2 pelo resto do combate"
 		},
 		{
 			"name": "Armadura Resistente",
 			"type": "power",
 			"cost": 2,
-			"shield_bonus": 3,
+			"shield_bonus": 5,
 			"rarity": Rarity.UNCOMMON,
-			"description": "Aumenta escudo em 3 pelo resto do combate"
+			"description": "+5 Defesa por 3 turnos"
 		},
 
 		# RARO

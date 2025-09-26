@@ -24,6 +24,9 @@ EventSystem="*res://scripts/core/EventSystem.gd"
 ShopSystem="*res://scripts/core/ShopSystem.gd"
 CampfireSystem="*res://scripts/core/CampfireSystem.gd"
 BuffSystem="*res://scripts/core/BuffSystem.gd"
+EnemySystem="*res://scripts/core/EnemySystem.gd"
+AbyssSystem="*res://scripts/core/AbyssSystem.gd"
+EldritchTheme="*res://scripts/ui/EldritchTheme.gd"
 
 [display]
 

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/gameplay/Combat.gd" id="1_vk5j4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/CardDisplay.tscn" id="2_carddisp"]
+[ext_resource type="Texture2D" path="res://assets/generated/ui/bg_combat.png" id="3_combatbg"]
 
 [node name="Combat" type="Control"]
 layout_mode = 3
@@ -9,12 +11,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_vk5j4")
 
+[node name="BackgroundTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("3_combatbg")
+expand_mode = 1
+stretch_mode = 6
+
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.1, 0.1, 0.15, 1)
+color = Color(0.15, 0.05, 0.25, 0.3)
 
 [node name="EnemyPanel" type="Panel" parent="."]
 layout_mode = 1
@@ -110,9 +121,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -300.0
-offset_top = -220.0
+offset_top = -180.0
 offset_right = 300.0
-offset_bottom = -20.0
+offset_bottom = -10.0
 
 [node name="CardsSection" type="VBoxContainer" parent="CardsPanel"]
 layout_mode = 1
